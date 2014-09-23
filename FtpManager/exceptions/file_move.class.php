@@ -1,8 +1,12 @@
 <?php
 	/*																																																	*
-	 * Cannot set FTP mode exception handler.																														*
+	 * Cannot move file exception handler.																															*
 	 *																																																	*
-	 * ADER Lionel, the 2014-09-19																																			*
+	 * It is free software; you can redistribute it and/or modify it under															*
+	 * the terms of the GNU Lesser General Public License, either version 3															*
+	 * of the License, or (at your option) any later version.																						*
+	 *																																																	*
+	 * ADER Lionel, the 2014-09-23																																			*
 	 *																																																	*/
 	
 	class FTPMCannotMoveFileException extends FtpManagerException {
