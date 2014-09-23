@@ -69,6 +69,12 @@
 		 * FtpManager contructor.
 		 * Contruct an FtpManager object and initialise the connection to the server.
 		 *
+		 * @uses __parseUrl()
+		 *
+		 * @throws FTPMConnectException If it cannot connect to the FTP server.
+		 * @throws FTPMSetModeException If it cannot set the FTP mode.
+		 * @throws FTPMLoginException 	If the login process to the FTP failed.
+		 *
 		 * @access public
 		 * @param string 	$server_url The URL to connect the FTP server.
 		 * @param string 	$login			User login to conenct the FTP server.
@@ -99,6 +105,10 @@
 		/**
 		 * List files in a directory.
 		 *
+		 * @uses pwd()
+		 *
+		 * @throws FTPMCannotListDirException If it cannot list the content of $path.
+		 *
 		 * @access public
 		 * @param string $path Directory path where to list files.
 		 * @author ADER Lionel <contact@korrigansoft.com>
@@ -115,6 +125,11 @@
 		
 		/**
 		 * Create a new directory tree according to $dirpath on the FTP.
+		 *
+		 * @uses pwd()
+		 * @uses ls()
+		 * @uses cd()
+		 * @uses mkdir()
 		 *
 		 * @access public
 		 * @param string $dirpath Name of the new directory.
@@ -143,6 +158,16 @@
 		
 		/**
 		 * Remove the directory given by $dirpath
+		 *
+		 * @uses cd()
+		 * @uses __fileExists()
+		 * @uses __isDir()
+		 * @uses ls()
+		 *
+		 * @throws FTPMFileNotExistsException If the file or directory to be deleted doesn't exists.
+		 * @throws FTPMNotEmptyDirException		If the directory to delete is not empty.
+		 * @throws FTPMRemoveDirException			If deleting the directory failed.
+		 * @throws FTPMDeleteFileException		If deleting the file failed.
 		 *
 		 * @access public
 		 * @param string $path Path to remove, could be a file or a directory.
@@ -185,6 +210,8 @@
 		/**
 		 * Change current directory to $path.
 		 *
+		 * @throws FTPMCannotChangeDirException If change directory to $path failed.
+		 *
 		 * @access public
 		 * @param string $path Path to a directory.
 		 * @author ADER Lionel <contact@korrigansoft.com>
@@ -199,6 +226,10 @@
 		 * Upload a file.
 		 * This function upload a file on the FTP server in the directory given by $dest_dir.
 		 * If the directory tree specified by $dest_dir doesn't it will be created.
+		 *
+		 * @uses mkdir()
+		 *
+		 * @throws FTPMFilePutException If the file upload to the FTP server failed.
 		 *
 		 * @access public
 		 * @param string $filepath Your local path to the file you want to upload on the FTP server.
@@ -219,6 +250,11 @@
 		
 		/**
 		 * Download a file from the FTP server.
+		 *
+		 * @uses __fileExists()
+		 *
+		 * @throws FTPMFileNotExistsException If the file to download doesn't exists.
+		 * @throws FTPMFileGetException 			If the file download failed.
 		 *
 		 * @access public
 		 * @param string $filepath Path to a file on the FTP server.
@@ -242,6 +278,12 @@
 		/**
 		 * Move a file to another directory.
 		 *
+		 * @uses __fileExists()
+		 * @uses mkdir()
+		 *
+		 * @throws FTPMFileNotExistsException 	If the file you want to move doesn't exists.
+		 * @throws FTPMCannotMoveFileException	If file move failed.
+		 *
 		 * @access public
 		 * @param string $filepath Path to a file on the FTP server.
 		 * @param string $dest_dir FTP directory path where you want to move the file.
@@ -263,6 +305,8 @@
 		/**
 		 * FtpManager destructor.
 		 * Close the open connection.
+		 *
+		 * @throws FTPMDeconnectException If the deconnection process failed.
 		 *
 		 * @access public
 		 * @author ADER Lionel <contact@korrigansoft.com>
@@ -314,6 +358,8 @@
 		
 		/**
 		 * Check if a file or directory exists.
+		 *
+		 * @uses ls()
 		 *
 		 * @access private
 		 * @param string $path Path to search if the file or directory exists.
