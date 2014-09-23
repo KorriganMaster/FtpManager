@@ -240,6 +240,27 @@
 		}
 		
 		/**
+		 * Move a file to another directory.
+		 *
+		 * @access public
+		 * @param string $filepath Path to a file on the FTP server.
+		 * @param string $dest_dir FTP directory path where you want to move the file.
+		 * @author ADER Lionel <contact@korrigansoft.com>
+		 */
+		public function mv($filepath, $dest_dir) {
+			$filepathArray = explode('/', $filepath);
+			$filename = array_pop($filepathArray);
+			$filepath = implode('/', $filepathArray);
+			if(!$this->__fileExists($filepath, $filename)) {
+				throw new FTPMFileNotExistsException($filename, $filepath);
+			}
+			$this->mkdir($dest_dir);
+			if(!ftp_rename($this->_handler, $filepath.'/'.$filename, $dest_dir.'/'.$filename)) {
+				throw new FTPMCannotMoveFileException($filepath.'/'.$filename, $dest_dir.'/'.$filename);
+			}
+		}
+		
+		/**
 		 * FtpManager destructor.
 		 * Close the open connection.
 		 *
