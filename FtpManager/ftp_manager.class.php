@@ -49,6 +49,8 @@
 		
 		/**
 		 * Port to use to connect to the FTP server
+		 *
+		 * @var int
 		 */
 		private $_port = 21;
 		
